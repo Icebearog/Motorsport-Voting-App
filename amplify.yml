@@ -4,6 +4,7 @@ frontend:
     preBuild:
       commands:
         - npm install
+        - npm install @tailwindcss/vite --save-dev
     build:
       commands:
         - npm run build
