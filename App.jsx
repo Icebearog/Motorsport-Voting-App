@@ -1,4 +1,4 @@
-import VotingPoll from "./components/votingpoll";
+import VotingPoll from "./votingpoll";
 
 function App() {
   return <VotingPoll />;
