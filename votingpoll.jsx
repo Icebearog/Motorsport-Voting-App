@@ -32,16 +32,15 @@ export default function VotingPoll() {
   const handleVote = (id) => { 
     if (voted) return; 
 
-    fetch(`https://backend-voting-app-25f8.onrender.com/`, {
-      method: "POST"
+    //  Change it to this:
+    fetch(`https://backend-voting-app-25f8.onrender.com/poll/${disciplineId}/vote`, {
+      method: 'POST'
     })
-      .then((res) => res.json())
-      .then((updatedData) => {
-        setVotes({
-          f1: updatedData.f1.votes,
-          wrc: updatedData.wrc.votes,
-          endurance: updatedData.endurance.votes,
-        });
+    .then(res => res.json())
+    .then(data => {
+      // Just set the whole state to the updated data your Python code sent back
+      setDisciplines(data); 
+    });
         setVoted(id);
       })
       .catch((err) => console.error("Error submitting vote:", err));
