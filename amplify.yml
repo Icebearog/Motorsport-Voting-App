@@ -3,12 +3,11 @@ frontend:
   phases:
     preBuild:
       commands:
-        - cd voting-app
         - npm install
     build:
       commands:
         - npm run build
   artifacts:
-    baseDirectory: voting-app/dist
+    baseDirectory: dist
     files:
       - '**/*'
