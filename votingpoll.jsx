@@ -7,20 +7,21 @@ const OPTIONS = [
 ];
 
 export default function VotingPoll() {
-  // Start with 0s since we will load the real numbers from Python
   const [votes, setVotes] = useState({ f1: 0, wrc: 0, endurance: 0 });
   const [voted, setVoted] = useState(null);
 
-  // 1. GET THE LIVE DATA WHEN THE PAGE LOADS
+  // 1. GET THE LIVE DATA WHEN THE PAGE LOADS (Using the correct /poll endpoint)
   useEffect(() => {
-    fetch("https://backend-voting-app-25f8.onrender.com/")
+    fetch("https://backend-voting-app-25f8.onrender.com/poll")
       .then((res) => res.json())
       .then((data) => {
-        setVotes({
-          f1: data.f1.votes,
-          wrc: data.wrc.votes, 
-          endurance: data.endurance.votes,
-        });
+        if (data && data.f1) {
+          setVotes({
+            f1: data.f1.votes,
+            wrc: data.wrc.votes, 
+            endurance: data.endurance.votes,
+          });
+        }
       })
       .catch((err) => console.error("Error connecting to Python backend:", err));
   }, []);
@@ -28,20 +29,23 @@ export default function VotingPoll() {
   // Calculate totals based on live values
   const total = Object.values(votes).reduce((sum, v) => sum + v, 0);
 
-  // 2. SEND THE VOTE TO THE BACKEND 
+  // 2. SEND THE VOTE TO THE BACKEND (Injecting the dynamic sport ID into the path)
   const handleVote = (id) => { 
     if (voted) return; 
 
-    //  Change it to this:
-    fetch(`https://backend-voting-app-25f8.onrender.com/poll/${disciplineId}/vote`, {
-      method: 'POST'
+    fetch(`https://backend-voting-app-25f8.onrender.com/poll/${id}/vote`, {
+      method: "POST"
     })
-    .then(res => res.json())
-    .then(data => {
-      // Just set the whole state to the updated data your Python code sent back
-      setDisciplines(data); 
-    });
-        setVoted(id);
+      .then((res) => res.json())
+      .then((updatedData) => {
+        if (updatedData && updatedData[id]) {
+          setVotes({
+            f1: updatedData.f1.votes,
+            wrc: updatedData.wrc.votes,
+            endurance: updatedData.endurance.votes,
+          });
+          setVoted(id);
+        }
       })
       .catch((err) => console.error("Error submitting vote:", err));
   };
@@ -58,7 +62,7 @@ export default function VotingPoll() {
 
         <div className="space-y-4">
           {OPTIONS.map(({ id, label, color }) => {
-            const count = votes[id];
+            const count = votes[id] || 0;
             const pct = total > 0 ? Math.round((count / total) * 100) : 0;
             const isSelected = voted === id;
 
