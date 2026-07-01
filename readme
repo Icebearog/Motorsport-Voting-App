@@ -1,0 +1,7 @@
+hi! this is a readme file for the backend of the motorsport voting fullstack app.
+Since it is my first time building a fullstack app,
+I will most likely have mistakes in the code. Future more complex versions will show improvements.
+
+this is a monorepo project, the backend is build with fastapi whereas I used claude to build the
+the frontend using talwind css and react. This app is a voting app for motorsport fans, 
+simply said, its to represent real time backend to frontend communication.
