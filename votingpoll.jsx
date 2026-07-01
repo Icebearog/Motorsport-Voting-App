@@ -13,7 +13,7 @@ export default function VotingPoll() {
 
   // 1. GET THE LIVE DATA WHEN THE PAGE LOADS
   useEffect(() => {
-    fetch("http://votingbackend-env.eba-rgejkkwe.eu-central-1.elasticbeanstalk.com/")
+    fetch("https://votingbackend-env.eba-rgejkkwe.eu-central-1.elasticbeanstalk.com/")
       .then((res) => res.json())
       .then((data) => {
         setVotes({
@@ -32,7 +32,7 @@ export default function VotingPoll() {
   const handleVote = (id) => { 
     if (voted) return; 
 
-    fetch(`http://votingbackend-env.eba-rgejkkwe.eu-central-1.elasticbeanstalk.com/`, {
+    fetch(`https://votingbackend-env.eba-rgejkkwe.eu-central-1.elasticbeanstalk.com/`, {
       method: "POST"
     })
       .then((res) => res.json())
