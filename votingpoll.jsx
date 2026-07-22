@@ -12,7 +12,7 @@ export default function VotingPoll() {
 
   // 1. GET THE LIVE DATA WHEN THE PAGE LOADS (Using the correct /poll endpoint)
   useEffect(() => {
-    fetch("https://backend-voting-app-25f8.onrender.com/poll")
+    fetch(`${import.meta.env.VITE_URL_BACKEND}`)
       .then((res) => res.json())
       .then((data) => {
         if (data && data.f1) {
